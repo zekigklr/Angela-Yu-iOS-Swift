@@ -18,6 +18,7 @@ class CalculatorViewController: UIViewController {
     
     var tip = 0.1
     var numberOfPeople = 2
+    var billTotal = 0.0
     
     
 
@@ -40,6 +41,9 @@ class CalculatorViewController: UIViewController {
                
     //Divide the percent expressed out of 100 into a decimal e.g. 10 becomes 0.1
         tip = buttonTitleAsANumber / 100
+        
+        billTextField.endEditing(true)
+        
 
         
     }
@@ -54,8 +58,17 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        print(numberOfPeople)
         
+        let bill = billTextField.text!
+        if bill != "" {
+            //Turn the bill from a String e.g. "123.50" to an actual String with decimal places.
+            billTotal = Double(bill)!
+            let result = billTotal * (1 + tip) / Double(numberOfPeople)
+            
+            let resultTo2DecimalPlaces = String(format: "%.2f", result)
+            
+            print(resultTo2DecimalPlaces)
+        }
     }
     
 }
