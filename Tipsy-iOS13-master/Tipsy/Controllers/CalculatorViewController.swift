@@ -19,11 +19,14 @@ class CalculatorViewController: UIViewController {
     var tip = 0.1
     var numberOfPeople = 2
     var billTotal = 0.0
+    var finalResult = "0.0"
     
     
 
     @IBAction func tipChanged(_ sender: UIButton) {
     //Deselect all tip buttons via IBOutlets
+        
+        billTextField.endEditing(true)
         zeroPctButton.isSelected = false
         tenPctButton.isSelected = false
         twentyPctButton.isSelected = false
@@ -42,7 +45,7 @@ class CalculatorViewController: UIViewController {
     //Divide the percent expressed out of 100 into a decimal e.g. 10 becomes 0.1
         tip = buttonTitleAsANumber / 100
         
-        billTextField.endEditing(true)
+        
         
 
         
@@ -65,9 +68,22 @@ class CalculatorViewController: UIViewController {
             billTotal = Double(bill)!
             let result = billTotal * (1 + tip) / Double(numberOfPeople)
             
-            let resultTo2DecimalPlaces = String(format: "%.2f", result)
             
-            print(resultTo2DecimalPlaces)
+            finalResult = String(format: "%.2f", result)
+        }
+        self.performSegue(withIdentifier: "goToResults", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            
+        //If the currently triggered segue is the "goToResults" segue.
+        if segue.identifier == "goToResults" {
+                
+            //Get hold of the instance of the destination VC and type cast it to a ResultViewController.
+            let destinationVC = segue.destination as! ResultsViewController
+            destinationVC.result = finalResult
+            destinationVC.tip = Int(tip * 100)
+            destinationVC.split = numberOfPeople
         }
     }
     
