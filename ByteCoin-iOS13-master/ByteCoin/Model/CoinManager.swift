@@ -35,12 +35,35 @@ struct CoinManager {
                     return
                 }
                 //Format the data we got back as a string to be able to print it.
-                let dataAsString = String(data: data!, encoding: .utf8)
-                print(dataAsString)
+                if let safeData = data {
+                                    let bitcoinPrice = self.parseJSON(safeData)
+                                }
                 
             }
             //Start task to fetch data from bitcoin average's servers.
             task.resume()
         }
     }
+    
+    func parseJSON(_ data: Data) -> Double? {
+            
+            //Create a JSONDecoder
+            let decoder = JSONDecoder()
+            do {
+                
+                //try to decode the data using the CoinData structure
+                let decodedData = try decoder.decode(CoinData.self, from: data)
+                
+                //Get the last property from the decoded data.
+                let lastPrice = decodedData.rate
+                print(lastPrice)
+                return lastPrice
+                
+            } catch {
+                
+                //Catch and print any errors.
+                print(error)
+                return nil
+            }
+        }
 }
