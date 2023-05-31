@@ -65,7 +65,7 @@ struct CoinManager {
             task.resume()
         }
     }
-    
+    //MARK: - CoinManagerDelegate
     func parseJSON(_ data: Data) -> Double? {
             
             //Create a JSONDecoder
@@ -88,3 +88,4 @@ struct CoinManager {
             }
         }
 }
+
