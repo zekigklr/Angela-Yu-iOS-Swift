@@ -17,3 +17,4 @@ while now < oneSecondFromNow {
     now = Date().timeIntervalSince1970
     print("Waiting...")
 }
+//The general topic will be repeated today.
